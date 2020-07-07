@@ -1,0 +1,84 @@
+{% extends 'account/base.html' %}
+{% block title %}Colleagues{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-7">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                    <h3>All Colleagues</h3>
+
+                    {% if colls.count == 0 %}
+                        <p><strong>You have no colleagues, you can start adding colleagues <a href="{% url 'account:add_colleague' %}">right here</a>. </strong></p>
+                    {% endif %}
+
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Colleague</th>
+                            <th>Remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for colleague in colls.all %}
+                            <tr>
+                                <td>{% if user.username == colleague.user %} {{ colleague.coll }} {% else %} {{ colleague.user }} {% endif %}</td>
+                                <td>
+                                    <form action="{% url 'account:delete_coll' colleague.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Remove
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-5">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Blocked Users</h3>
+                    {% if blocked.count == 0 %}
+                        <p><strong>You have no blocked users. </strong></p>
+                    {% endif %}
+
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Unblock</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in blocked.all %}
+                            <tr>
+                                <td>{{ user.user2 }}</td>
+                                <td>
+                                    <form action="{% url 'account:unblock_user' user.user2 %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+
+                                        <button type="submit" class="btn btn-success btn-xs">
+                                            Unblock
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+{% endblock %}

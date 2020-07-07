@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% if collg %} ({{ collg | length }}) {% endif %} Secure File Sharing{% endblock %}</title>
+    {% load staticfiles %}
+    <link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'account/style.css' %}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+<style>
+    .dot {
+  height: 12px;
+  width: 12px;
+  background-color: #f00;
+  border-radius: 50%;
+  display: inline-block;
+}
+    .dot1 {
+  height: 7px;
+  width: 7px;
+  background-color: #f00;
+  border-radius: 50%;
+  display: inline-block;
+}
+</style>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <!-- Header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'account:home' %}">Secure File Sharing</a>
+        </div>
+
+        <!-- Items -->
+        <div class="collapse navbar-collapse" id="topNavBar">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="{% url 'account:create_folder' %}" data-toggle="tooltip" title="Save files in Folder" >
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Add Folder
+                    </a>
+                </li>
+
+            </ul>
+            <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'account:home' %}">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="q" value="{{ request.GET.q }}">
+                </div>
+                <button type="submit" class="btn btn-default">Search</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><font size="4">Welcome <b>{{ user.username }} </b></font> {% if collg %} <span class="dot"></span> {% endif %}  <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'account:add_colleague' %}"><span class="glyphicon glyphicon-plus"></span> Add Colleague</a></li>
+                        <li><a href="{% url 'account:show_colleague' %}"><span class="glyphicon glyphicon-user"></span> View Colleagues</a></li>
+                        <li><a href="{% url 'account:sent_file' %}"><span class="glyphicon glyphicon-open-file"></span> Sent Files</a></li>
+                        <li><a href="{% url 'account:rec_file' %}"><span class="glyphicon glyphicon-save-file"></span> Received Files  {% if collg %} <span class="dot1"></span> {% endif %}</a></li>
+                        <li><a href="{% url 'account:logout_user' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                    </ul>
+                 </li>
+
+            </ul>
+        </div>
+
+    </div>
+</nav>
+{% block body %}
+{% endblock %}
+</body>
+</html>

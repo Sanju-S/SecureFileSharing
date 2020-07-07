@@ -1,0 +1,196 @@
+{% extends 'account/base.html' %}
+
+{% block body %}
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#hide-modal').click(function(){
+                $('#myModal').modal('hide');
+            });
+        });
+    </script>
+    <style type="text/css">
+        #hide-modal{
+            width: 200px;
+            position: absolute;
+            margin: 0 auto;
+            right: 0;
+            left: 0;
+            bottom: 20px;
+            z-index: 9999;
+        }
+    </style>
+
+<div class="albums-container container-fluid">
+
+    <!-- Folders -->
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>{{ user.username }}'s Folders</h3>
+        </div>
+        {% if folders %}
+            {% for folder in folders %}
+                <div class="col-sm-4 col-lg-2">
+                    <div class="thumbnail">
+                        <a href="{% url 'account:detail' folder.id %}">
+                            <img src="https://www.technorms.com/assets/post-featured-image-4725-1.jpg" class="img-responsive">
+                        </a>
+                        <div class="caption">
+                            <h2>{{ folder.folder_title }}</h2>
+                            <h3>{{ folder.folder_type }}</h3>
+
+
+                            <!-- View Details -->
+                            <form action="{% url 'account:detail' folder.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="album_id" value="{{ folder.id }}" />
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <span>View Details</span>
+                                </button>
+                            </form>
+
+                            <!-- Delete Folder -->
+                            <form action="{% url 'account:delete_folder' folder.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="album_id" value="{{ folder.id }}" />
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </form>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+        {% else %}
+            <div class="col-sm-12">
+                <br>
+                <a href="{% url 'account:create_folder' %}" data-toggle="tooltip" title="Save files in Folder">
+                    <button type="button" class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Add a Folder
+                    </button>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- If user searches and there are files -->
+    {% if files %}
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Files</h3>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>File Title</th>
+
+                                    <th>Download</th>
+
+                                    <th>Folder</th>
+
+                                    <th>Share</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for file in files %}
+                                    <tr>
+                                        <td>{{ file.file_title }}</td>
+
+                                        <td>
+                                            <a href="{% url 'account:download_file' file.id %}">
+                                                <button type="button" class="btn btn-success btn-xs">
+                                                    <span class="glyphicon glyphicon-download"></span>&nbsp; Download
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <form action="{% url 'account:detail' file.folder.id %}" method="post" style="display: inline;">
+                                               {% csrf_token %}
+                                                <input type="hidden" name="album_id" value="{{ file.folder.id }}" />
+                                                <button type="submit" class="btn btn-default btn-sm">
+                                                    <span>{{ file.folder.folder_title }}</span>
+                                                </button>
+                                             </form>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal">
+                                        <span class="glyphicon glyphicon-share"></span>&nbsp; Share
+                                    </button>
+                                    <div class="modal fade" id="myModal">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                           <div class="modal-content">
+                                               <div class="modal-header">
+                                                  <h4 class="modal-title">Select whom to send the E-Mail</h4>
+                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                               </div>
+
+                                               <div class="modal-body">
+                                                   <table class="table table-borderless">
+                                                       <tr>
+                                                           <td>
+                                                               <form action="{% url 'account:mail_to_me' file.folder.id file.id %}" method="post" style="display: inline;">
+                                                                   {% csrf_token %}
+
+                                                                   <button type="submit" class="btn btn-success btn-s" id="hide_modal">
+                                                                       Send to me
+                                                                   </button>
+                                                               </form>
+
+                                                               </td>
+
+                                                               <td>
+                                                               <form action="{% url 'account:mail_other' file.folder.id file.id %}" method="post" style="display: inline;">
+                                                                   {% csrf_token %}
+
+                                                                   <button type="submit" class="btn btn-primary btn-s" id="hide_modal">
+                                                                       Send to recipient
+                                                                   </button>
+                                                               </form>
+                                                           </td>
+                                                       </tr>
+
+                                                       <tr>
+                                                           <td>
+                                                                   <p>E-Mail will be sent to you</p>
+
+                                                           </td>
+                                                           <td>
+                                                                   <p>E-Mail will be directly sent to the recipient</p>
+
+                                                           </td>
+                                                       </tr>
+                                                   </table>
+                                                   <p>A link will be sent via the E-Mail</p>
+                                                   <p>Recipient need to click it and the file will be downloaded</p>
+                                               </div>
+
+                                               <div class="modal-footer">
+
+                                                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                               </div>
+
+                                           </div>
+                                        </div>
+                                    </div>
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

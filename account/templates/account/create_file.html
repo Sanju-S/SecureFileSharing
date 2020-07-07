@@ -1,0 +1,77 @@
+{% extends 'account/base.html' %}
+{% block title %}Add a New File{% endblock %}
+{% block folders_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <div class="row">
+
+        <!-- Left Folder Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                         <form action="{% url 'account:detail' folder.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="album_id" value="{{ folder.id }}" />
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <span>View Details</span>
+                                </button>
+                            </form>
+                    <h1>{{ folder.folder_title }} </h1>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Right File Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation">
+                    <form action="{% url 'account:detail' folder.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="album_id" value="{{ folder.id }}" />
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <span>View Details</span>
+                                </button>
+                    </form>
+                </li>
+                <li role="presentation" class="active">
+                    <form action="{% url 'account:create_file' folder.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="album_id" value="{{ folder.id }}" />
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <span>Add New File</span>
+                                </button>
+                            </form>
+                </li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Add a New File</h3>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="album" value="{{ folder }}">
+                        {% include 'account/form_template.html' %}
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

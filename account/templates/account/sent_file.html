@@ -1,0 +1,51 @@
+{% extends 'account/base.html' %}
+{% block title %}Received Files{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                    <h3>All Colleagues</h3>
+
+                    {% if no_file %}
+                        <p><strong>You haven't sent any file. </strong></p>
+                    {% endif %}
+
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Receiver</th>
+                            <th>Share</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for file in col %}
+                            <tr>
+                                <td>{{ file.file_name }}</td>
+                                <td>{{ file.receiver }}</td>
+                                <td>
+                                    <form action="{% url 'account:send_colleague' file.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+
+                                        <button type="submit" class="btn btn-primary btn-s" id="hide_modal">
+                                            Send to a colleague
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

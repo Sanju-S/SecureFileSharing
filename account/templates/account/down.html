@@ -1,0 +1,54 @@
+{% extends 'account/base.html' %}
+{% block title %}Download file{% endblock %}
+
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="panel panel-default">
+                    {% if error_msg %}
+                            <div class="panel-body">
+                                <p><strong>{{ error_msg }}</strong></p>
+                            </div>
+                            <div class="panel-footer">
+                                <p>This is a security mechanism to prevent users from downloading wrong file.</p>
+                            </div>
+                    {% elif incorrect_pw %}
+                        <div class="panel-body">
+                            <p><strong>The password didn't matched, try again.</strong></p>
+                            </div>
+                            <div class="panel-footer">
+                                <p>Check your password before submitting.</p>
+                            </div>
+                    {% else %}
+                    <div class="panel-body">
+
+                        <form class="form-horizontal" role="form" action="{% url 'account:down' file_id hash_key %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                           <div class="form-group">
+                                <label class="control-label col-sm-2" for="passwd">
+                                    Enter Password:
+                                </label>
+                                <div class="col-sm-2">
+                                    <input id="passwd" maxlength="50" name="passwd" type="password">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                     <button type="submit" class="btn btn-success">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <p>You can directly download the file and it is readily available to be read normally.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'account/base.html' %}
+{% block title %}Received Files{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                    <h3>Received Files</h3>
+
+                    {% if no_file %}
+                        <p><strong>You haven't received any file. </strong></p>
+                    {% endif %}
+
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Sender</th>
+                            <th>Download</th>
+                            <th>Ignore</th>
+                            <th>Block</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for file in col %}
+                            <tr>
+                                <td>{{ file.file_name }}</td>
+                                <td>{{ file.sender }}</td>
+                                <td>
+                                    <form action="{% url 'account:down_rec' file.file_id file.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+
+                                        {% if file.status == 1 or file.status == 3 %}
+                                            <button type="submit" class="btn btn-success btn-xs">
+                                                <span class="glyphicon glyphicon-"></span>&nbsp;Download
+                                            </button>
+                                        {% else %}
+                                            <button class="btn btn-primary btn-xs" disabled>
+                                                <span class="glyphicon glyphicon-"></span>&nbsp;Downloaded
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="{% url 'account:ignore' file.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        {% if file.status == 0 or file.status == 3 %}
+                                            <button class="btn btn-default btn-xs" disabled>
+                                                <span class="glyphicon glyphicon-"></span>&nbsp;Ignored
+                                            </button>
+                                        {% else %}
+                                            <button class="btn btn-default btn-xs">
+                                                <span class="glyphicon glyphicon-"></span>&nbsp;Ignore
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="{% url 'account:block_coll' file.sender %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <button class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-"></span>&nbsp;Block
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

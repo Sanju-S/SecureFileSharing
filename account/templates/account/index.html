@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Secure File Sharing</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="http://static1.squarespace.com/static/55345b3de4b0edee994cb89d/t/57510c7fa3360ceb8faa1030/1464929979279/"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+  body {
+      font: 20px Montserrat, sans-serif;
+      line-height: 1.8;
+      color: #f5f6f7;
+  }
+  p {font-size: 16px;}
+  .margin {margin-bottom: 45px;}
+  .logo {
+      margin-bottom: 45px;
+      font-family: 'Satisfy', cursive;
+      font-size: 500%;
+  }
+  .bg-1 {
+      background-color: #1abc9c;   
+      color: #ffffff;
+  }
+  .bg-2 {
+      background-color: #474e5d;   
+      color: #ffffff;
+  }
+  .bg-3 {
+      background-color: #ffffff;   
+      color: #555555;
+  }
+  .bg-4 {
+      background-color: #2f2f2f;   
+      color: #fff;
+  }
+  .container-fluid {
+      padding-top: 70px;
+      padding-bottom: 70px;
+  }
+  
+  .navbar-nav  li a:hover {
+      color: #1abc9c !important;
+  }
+  </style>
+</head>
+<body>
+
+ 
+{% extends 'account/base_visitor.html' %}
+{% block title %}Secure File Sharing{% endblock %}
+{% block body %}
+ 
+<div class="container-fluid bg-1 text-center">
+  <h3 class="logo">Secure File Sharing</h3>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZJELQ5Ur5dUQfq6qlY7VgeWvzdBIh7Ghh55U5PaaN8mzMMj9l0Q" class="img-responsive img-circle margin" style="display:inline" alt="Bird" width="350" height="350">
+  <h3>We respect security!</h3>
+</div>
+
+ 
+<div class="container-fluid bg-2 text-center">
+  <h3 class="margin">Why to use it?</h3>
+  <p>Everybody wants to feel secure nowadays so why not your files and datas too. </p>
+  <p>With this site you can keep your files safe without any worry and that too securely.</p>
+
+</div>
+
+
+<div class="container-fluid bg-3 text-center">
+  <h3 class="margin">How to use it?</h3><br>
+  <div class="row">
+    <div class="col-sm-4">
+      <p>Start off by registering or logging in.</p>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyBmQhlgR_JxvRslfVHkf19w4TWth8nz1WGoit2aYAR-csvLsVwg" class="img-responsive margin" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-4">
+      <p>Upload your files on the server which would then be encrypted and saved on the server.</p>
+      <img src="http://www.graphicssimplified.com/wp-content/uploads/2015/04/upload-cloud.png" class="img-responsive margin" style="width:100%" alt="Image">
+    </div>
+    <div class="col-sm-4">
+      <p>To share it with your friends or colleague, just click share button and then share the given file data to the intended recipient.</p>
+      <img src="https://pngimg.com/uploads/share/share_PNG43.png" class="img-responsive margin" style="width:100%" alt="Image">
+    </div>
+  </div>
+</div>
+
+ 
+<footer class="container-fluid bg-4 text-center">
+    <p><b>Secure File Sharing</b> : A TYBsc (Sem V) project by <b>Sanju Sarkar</b></p>
+</footer>
+
+{% endblock %}

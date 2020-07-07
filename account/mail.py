@@ -3,8 +3,8 @@ from string import Template
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-MY_ADDRESS = "securefilesharingteam@gmail.com"
-PASSWORD = "secure@123"
+MY_ADDRESS = "<email@address.here"
+PASSWORD = "<PasSwOrD>"
 
 
 def read_template():
